@@ -25,5 +25,8 @@ Setup Instructions
 Video Walkthrough
 [Insert your unlisted YouTube link here]
 
+<img width="1362" height="767" alt="sql" src="https://github.com/user-attachments/assets/2b7f2bad-c3ae-4eee-a528-6a0b968c8b3e" />
+
+
 ## AI Tool Disclosure
 AI tools (Claude, Anthropic) were used during this project for planning assistance, drafting the ERD structure, SQL script scaffolding, and troubleshooting setup issues. All work was reviewed, tested, and adapted by the author.
