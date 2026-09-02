@@ -1,0 +1,31 @@
+# RaceDay API Endpoint Plan
+
+The RaceDay API supports three access levels: **Public** (no authentication required), **Organiser**, and **Participant**. Below is a description of every planned endpoint, grouped by feature area.
+
+## Authentication
+
+Users register for an account by sending a `POST` request to `/api/auth/register`, providing their full name, email, password, and chosen role (Organiser or Participant). This endpoint is public and returns a `201 Created` response containing the new user's ID, name, email, and role. To log in, a user sends a `POST` request to `/api/auth/login` with their email and password; this is also public and returns a `200 OK` response containing a JWT token, its expiry time, and the user's role, which is then used to authenticate all subsequent requests.
+
+## User Profile
+
+A logged-in user (Organiser or Participant) can retrieve their own profile with a `GET` request to `/api/users/me`, which returns their user object. They can update their own profile with a `PUT` request to the same route, sending their updated full name and email, which returns the updated user object with a `200 OK` response.
+
+## Events
+
+Anyone can browse events: a `GET` request to `/api/events` lists all events and supports filters such as province, event type, and date, while a `GET` request to `/api/events/{id}` returns full detail for a single event. Both are public and return `200 OK`. Creating an event requires the Organiser role: a `POST` request to `/api/events` with the event name, description, date, location, province, and type returns a `201 Created` response with the new event object. Only the Organiser who owns the event can update it via `PUT /api/events/{id}` (returning `200 OK` with the updated event) or delete it via `DELETE /api/events/{id}` (returning `204 No Content`).
+
+## Categories
+
+Categories belong to a specific event. Anyone can list an event's categories with a `GET` request to `/api/events/{eventId}/categories`, which is public and returns `200 OK`. The owning Organiser can add a new category with a `POST` request to the same route, sending the category name, distance, maximum participants, and entry fee, which returns `201 Created`. The owning Organiser can also update a category via `PUT /api/categories/{id}` (returning `200 OK`) or remove it via `DELETE /api/categories/{id}` (returning `204 No Content`).
+
+## Event Routes
+
+To support race-day preparation, each event can have route information attached. Anyone can view an event's routes with a public `GET` request to `/api/events/{eventId}/routes`, returning `200 OK`. The owning Organiser can add route details — name, distance, elevation gain, start and end points, and an optional GPX file URL — with a `POST` request to the same route, returning `201 Created`.
+
+## Event Enrolments
+
+A Participant enters an event by sending a `POST` request to `/api/enrolments` with the ID of the category they're entering, which returns `201 Created` with the new enrolment object. A Participant can view their own enrolment history with a `GET` request to `/api/enrolments/my`, returning `200 OK`. The Organiser who owns an event can view all enrolments for it with a `GET` request to `/api/events/{eventId}/enrolments`, also returning `200 OK`. A Participant can cancel their own enrolment with a `DELETE` request to `/api/enrolments/{id}`, returning `204 No Content`.
+
+## Results
+
+Once an event has taken place, the owning Organiser captures results by sending a `POST` request to `/api/results` with the enrolment ID, finish time, position, and status, returning `201 Created`. The same Organiser can correct a result with a `PUT` request to `/api/results/{id}`, returning `200 OK`. A Participant can view their own result history with a `GET` request to `/api/results/my`, returning `200 OK`. Anyone can view the full results for an event with a public `GET` request to `/api/events/{eventId}/results`, also returning `200 OK`.
