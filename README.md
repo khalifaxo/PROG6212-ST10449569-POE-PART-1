@@ -22,8 +22,7 @@ Setup Instructions
 3. Press F5 or click Execute to run the script — it creates the `RaceDayDB` database, all tables, and seeds sample data.
 4. Verify by expanding Databases → RaceDayDB → Tables in Object Explorer.
 
-Video Walkthrough
-[Insert your unlisted YouTube link here]
+
 
 <img width="1362" height="767" alt="sql" src="https://github.com/user-attachments/assets/2b7f2bad-c3ae-4eee-a528-6a0b968c8b3e" />
 
